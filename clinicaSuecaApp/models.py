@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class Persona(AbstractUser):
-    rut = models.IntegerField(primary_key=True)
+    pass
 
 class Doctor(models.Model):
     especialidad = models.CharField(max_length=100)
