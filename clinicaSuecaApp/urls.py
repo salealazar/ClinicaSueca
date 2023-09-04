@@ -18,8 +18,8 @@ from clinicaSuecaApp import views
 from django.urls import path
 
 urlpatterns = [
-    path('ingreso/', views.Login.as_view(), 'ingreso'),
-    path('salir/', views.Logout.as_view(), 'salir'),
-    path('registro/', views.Register.as_view(), 'registro'),
-    path('reserva', views.Home.as_view(), 'reserva')
+    path('login/', views.sign_in, 'login'),
+    path('logout/', views.sign_out, 'logout'),
+    path('register/', views.sign_up, 'registro'),
+    path('book', views.book, 'book'),
 ]
