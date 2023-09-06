@@ -3,12 +3,30 @@
 {% block title %}Reserva{% endblock title %}
 
 {% block content %}
+{% if request.user.is_authenticated %} 
+		<form method="POST" novalidate>
+			{% csrf_token %}
+			<h2>Reserva</h2>
+			<!-- {{ form.as_ul }} -->
+			<!-- {{ form.as_p }}	 -->
+			<!-- {{ form.as_table }}	 -->
+			<!-- {{ form.as_div }}			 -->
 
-<form method="POST" novalidate>
-	{% csrf_token %}
-	<h2>Reserva</h2>
-	{{ form.as_p }}		
-	<input type="submit" value="Book" />
-</form>
+			{% for field in form %}
+    			<div class="fieldWrapper">
+        		{{ field.errors }}
+        		{{ field.label_tag }} {{ field }}
+        		{% if field.help_text %}
+        			<p class="help">{{ field.help_text|safe }}</p>
+        		{% endif %}
+    			</div>
+			{% endfor %}
+
+			<input type="submit" value="Book" />
+		</form>
+    {% else %}
+	<h2>No puedes reservar si no tienes una cuenta</h2>
+    {% endif %}
+
 
 {% endblock content%}

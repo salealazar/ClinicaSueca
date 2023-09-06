@@ -1,7 +1,7 @@
 from django.contrib import admin
 from clinicaSuecaApp import models
 
-admin.register(models.Persona)
-admin.register(models.Paciente)
-admin.register(models.Doctor)
-admin.register(models.HoraMedica)
+admin.site.register(models.Persona)
+admin.site.register(models.Paciente)
+admin.site.register(models.Doctor)
+admin.site.register(models.HoraMedica)

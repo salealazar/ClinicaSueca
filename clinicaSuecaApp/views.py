@@ -1,3 +1,4 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -22,10 +23,29 @@ def sign_up(request):
             return render(request, 'users/register.html', {'form': form})
         
 def sign_in(request):
-    pass
+    if request.method == 'GET':
+        form = LoginForm()
+        return render(request,'users/login.html', {'form': form})
+    
+    elif request.method == 'POST':
+        form = LoginForm(request.POST)
+        
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            user = authenticate(request,username=username,password=password)
+            if user:
+                login(request, user)
+                messages.success(request,f'Hi {username.title()}, welcome back!')
+                return redirect('book')
+        
+        # form is not valid or user is not authenticated
+        messages.error(request,f'Invalid username or password')
+        return render(request,'users/login.html',{'form': form})
 
 def sign_out(request):
-    pass
+    logout(request)
+    return HttpResponseRedirect('/login')
 
 def book(request):
     if request.method == 'GET':
@@ -34,9 +54,10 @@ def book(request):
 
     if request.method == 'POST':
         
-        form = BookForm(request.POST, paciente=request.user.paciente) 
+        form = BookForm(request.POST) 
         if form.is_valid():
             book = form.save(commit=False)
+            book.paciente = request.user.paciente
             book.save()
             messages.success(request, 'You have booked successfully.')
             return redirect('book')
